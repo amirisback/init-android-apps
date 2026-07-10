@@ -21,7 +21,7 @@ base {
 
 android {
 
-    namespace = "com.frogobox.kickstart"
+    namespace = "io.github.amirisback.androidapp"
     compileSdk = ProjectSetting.PROJECT_COMPILE_SDK
 
     defaultConfig {

@@ -1,0 +1,133 @@
+package io.github.amirisback.androidapp.ui.detail
+
+import android.content.Context
+import android.content.Intent
+import android.os.Bundle
+import androidx.activity.viewModels
+import io.github.amirisback.androidapp.common.base.BaseActivity
+import io.github.amirisback.androidapp.common.callback.Resource
+import io.github.amirisback.androidapp.databinding.ActivityDetailBinding
+import io.github.amirisback.androidapp.domain.model.MealModel
+import com.frogobox.sdk.ext.getExtraExt
+import com.frogobox.sdk.ext.gone
+import com.frogobox.sdk.ext.setImageExt
+import com.frogobox.sdk.ext.showToast
+import com.frogobox.sdk.ext.toJson
+import com.frogobox.sdk.ext.visible
+import dagger.hilt.android.AndroidEntryPoint
+
+@AndroidEntryPoint
+class DetailActivity : BaseActivity<ActivityDetailBinding>() {
+
+    companion object {
+        const val EXTRA_DATA = "EXTRA_DATA"
+
+        fun createIntent(context: Context, data: MealModel): Intent {
+            return Intent(context, DetailActivity::class.java).apply {
+                putExtra(EXTRA_DATA, data.toJson())
+            }
+        }
+
+        fun launch(context: Context, data: MealModel) {
+            context.startActivity(createIntent(context, data))
+        }
+
+    }
+
+    private val viewModel: DetailViewModel by viewModels()
+
+    override fun setupViewBinding(): ActivityDetailBinding {
+        return ActivityDetailBinding.inflate(layoutInflater)
+    }
+
+    override fun setupViewModel() {
+        viewModel.mealsState.observe(this) {
+            when (it) {
+                is Resource.Error -> {
+                    binding.progressView.gone()
+                    showToast(it.message.toString())
+                }
+
+                is Resource.Loading -> {
+                    binding.progressView.visible()
+                }
+
+                is Resource.Success -> {
+                    binding.progressView.gone()
+                    it.data?.let { items ->
+                        if (!items.isEmpty()) {
+                            binding.btnInsert.gone()
+                            binding.btnDelete.visible()
+                        }
+                    }
+                }
+            }
+        }
+
+        viewModel.insertState.observe(this) {
+            when (it) {
+                is Resource.Error -> {
+                    binding.progressView.gone()
+                    showToast(it.message.toString())
+                }
+
+                is Resource.Loading -> {
+                    binding.progressView.visible()
+                }
+
+                is Resource.Success -> {
+                    binding.progressView.gone()
+                    binding.btnInsert.gone()
+                    binding.btnDelete.visible()
+                    showToast("Berhasil Menambahkan Ke Favorite ${it.data?.strMeal}")
+                }
+            }
+        }
+
+        viewModel.deleteState.observe(this) {
+            when (it) {
+                is Resource.Error -> {
+                    binding.progressView.gone()
+                    showToast(it.message.toString())
+                }
+
+                is Resource.Loading -> {
+                    binding.progressView.visible()
+                }
+
+                is Resource.Success -> {
+                    binding.progressView.gone()
+                    finish()
+                }
+            }
+        }
+    }
+
+    override fun onCreateExt(savedInstanceState: Bundle?) {
+        super.onCreateExt(savedInstanceState)
+        setupDetailActivity("Detail Meals")
+
+        val extra = getExtraExt<MealModel>(EXTRA_DATA)
+        viewModel.mealModel = extra
+        viewModel.getData()
+
+        extra?.let {
+            binding.apply {
+                ivUrl.setImageExt(it.strMealThumb)
+                tvSource.text = it.strArea
+                tvTitle.text = it.strMeal
+                tvContent.text = it.strCategory
+
+                btnInsert.setOnClickListener {
+                    viewModel.insertToDB()
+                }
+
+                btnDelete.setOnClickListener {
+                    viewModel.removeFromDb()
+                }
+            }
+        }
+
+    }
+
+}
