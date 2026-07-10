@@ -22,6 +22,7 @@ chucker = "4.3.1"
 mixpanel = "8.8.0"
 
 frogoAndroid = "3.0.3"
+coil = "2.6.0"
 
 [libraries]
 # Android Kit
@@ -65,6 +66,7 @@ github-glide-compiler = { group = "com.github.bumptech.glide", name = "ksp", ver
 github-balloon = { group = "com.github.skydoves", name = "balloon", version.ref = "balloon" }
 
 frogo-android = { group = "com.github.frogobox", name = "frogo-sdk", version.ref = "frogoAndroid" }
+coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
 
 # --------------------------------------------------------------------------------------------------
 
