@@ -19,15 +19,11 @@ Gunakan skill pembaca file / workspace untuk mengambil source code berikut:
 
 1. File Layout XML:
 
-- app\src\main\res\layout\activity_main.xml
-- app\src\main\res\layout\fragment_main.xml
+- app\src\main\res\layout\activity_about_us.xml
 
 1. File Activity/Fragment Terkait:
 
-- app\src\main\java\io\github\amirisback\androidapp\ui\main\MainActivity.kt
-- app\src\main\java\io\github\amirisback\androidapp\ui\main\MainAdapter.kt
-- app\src\main\java\io\github\amirisback\androidapp\ui\main\MainFragment.kt
-- app\src\main\java\io\github\amirisback\androidapp\ui\main\MainViewModel.kt
+- app\src\main\java\io\github\amirisback\androidapp\ui\about\AboutUsActivity.kt
 
 # INSTRUKSI MIGRASI
 
