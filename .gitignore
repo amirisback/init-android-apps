@@ -34,4 +34,4 @@ app/version.properties
 # SonarQube
 .sonar/
 
-gradle\gradle-daemon-jvm.properties
+gradle/gradle-daemon-jvm.properties
