@@ -7,7 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.Composable
 import io.github.amirisback.androidapp.common.base.BaseActivity
 import io.github.amirisback.androidapp.ui.features.about.AboutUsScreen
-import io.github.amirisback.init.ui.theme.InitTheme
+import io.github.amirisback.androidapp.ui.theme.InitTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

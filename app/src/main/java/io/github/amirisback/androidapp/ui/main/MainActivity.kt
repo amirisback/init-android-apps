@@ -30,7 +30,7 @@ import io.github.amirisback.androidapp.ui.favorite.FavoriteViewModel
 import io.github.amirisback.androidapp.ui.features.favorite.FavoriteScreen
 import io.github.amirisback.androidapp.ui.features.main.MainScreen
 import io.github.amirisback.androidapp.ui.features.main.MainViewModel
-import io.github.amirisback.init.ui.theme.InitTheme
+import io.github.amirisback.androidapp.ui.theme.InitTheme
 
 @AndroidEntryPoint
 class MainActivity : BaseActivity() {
@@ -91,7 +91,7 @@ fun MainActivityScreen(
         },
         bottomBar = {
             NavigationBar {
-                MainActivity.Tab.values().forEach { tab ->
+                MainActivity.Tab.entries.forEach { tab ->
                     NavigationBarItem(
                         selected = currentTab == tab,
                         onClick = { currentTab = tab },

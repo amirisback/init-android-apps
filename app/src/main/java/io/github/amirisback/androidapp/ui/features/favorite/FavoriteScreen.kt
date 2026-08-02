@@ -5,16 +5,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
 import io.github.amirisback.androidapp.R
 import io.github.amirisback.androidapp.common.callback.Resource
 import io.github.amirisback.androidapp.domain.model.MealModel
@@ -35,13 +31,13 @@ fun FavoriteScreen(
         viewModel.getData()
     }
 
-    val resourceState = viewModel.mealsState.observeAsState(initial = Resource.Loading())
+    val resourceState by viewModel.mealsState.collectAsState()
 
     Box(
         modifier = modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
-        when (val state = resourceState.value) {
+        when (val state = resourceState) {
             is Resource.Loading -> {
                 LoadingIndicator()
             }
@@ -70,20 +66,4 @@ fun FavoriteScreen(
             }
         }
     }
-}
-
-/**
- * Extension helper to observe LiveData in Compose without adding extra dependency
- */
-@Composable
-fun <T> LiveData<T>.observeAsState(initial: T): State<T> {
-    val state = remember { mutableStateOf(initial) }
-    DisposableEffect(this) {
-        val observer = Observer<T> { state.value = it }
-        observeForever(observer)
-        onDispose {
-            removeObserver(observer)
-        }
-    }
-    return state
 }

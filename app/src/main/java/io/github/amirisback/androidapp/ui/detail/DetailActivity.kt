@@ -9,6 +9,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.frogobox.sdk.ext.getExtraExt
 import com.frogobox.sdk.ext.showToast
 import com.frogobox.sdk.ext.toJson
@@ -17,7 +20,8 @@ import io.github.amirisback.androidapp.common.base.BaseActivity
 import io.github.amirisback.androidapp.common.callback.Resource
 import io.github.amirisback.androidapp.domain.model.MealModel
 import io.github.amirisback.androidapp.ui.features.detail.DetailScreen
-import io.github.amirisback.init.ui.theme.InitTheme
+import io.github.amirisback.androidapp.ui.theme.InitTheme
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class DetailActivity : BaseActivity() {
@@ -42,61 +46,67 @@ class DetailActivity : BaseActivity() {
     private var isFavoriteState by mutableStateOf(false)
 
     override fun setupViewModel() {
-        viewModel.mealsState.observe(this) {
-            when (it) {
-                is Resource.Error -> {
-                    isLoadingState = false
-                    showToast(it.message.toString())
-                }
-
-                is Resource.Loading -> {
-                    isLoadingState = true
-                }
-
-                is Resource.Success -> {
-                    isLoadingState = false
-                    it.data?.let { items ->
-                        if (items.isNotEmpty()) {
-                            isFavoriteState = true
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    viewModel.mealsState.collect { resource ->
+                        when (resource) {
+                            is Resource.Error -> {
+                                isLoadingState = false
+                                showToast(resource.message.toString())
+                            }
+                            is Resource.Loading -> {
+                                isLoadingState = true
+                            }
+                            is Resource.Success -> {
+                                isLoadingState = false
+                                resource.data?.let { items ->
+                                    if (items.isNotEmpty()) {
+                                        isFavoriteState = true
+                                    }
+                                }
+                            }
                         }
                     }
                 }
-            }
-        }
 
-        viewModel.insertState.observe(this) {
-            when (it) {
-                is Resource.Error -> {
-                    isLoadingState = false
-                    showToast(it.message.toString())
+                launch {
+                    viewModel.insertState.collect { resource ->
+                        when (resource) {
+                            is Resource.Error -> {
+                                isLoadingState = false
+                                showToast(resource.message.toString())
+                            }
+                            is Resource.Loading -> {
+                                isLoadingState = true
+                            }
+                            is Resource.Success -> {
+                                isLoadingState = false
+                                isFavoriteState = true
+                                showToast("Berhasil Menambahkan Ke Favorite ${resource.data?.strMeal}")
+                            }
+                            null -> {}
+                        }
+                    }
                 }
 
-                is Resource.Loading -> {
-                    isLoadingState = true
-                }
-
-                is Resource.Success -> {
-                    isLoadingState = false
-                    isFavoriteState = true
-                    showToast("Berhasil Menambahkan Ke Favorite ${it.data?.strMeal}")
-                }
-            }
-        }
-
-        viewModel.deleteState.observe(this) {
-            when (it) {
-                is Resource.Error -> {
-                    isLoadingState = false
-                    showToast(it.message.toString())
-                }
-
-                is Resource.Loading -> {
-                    isLoadingState = true
-                }
-
-                is Resource.Success -> {
-                    isLoadingState = false
-                    finish()
+                launch {
+                    viewModel.deleteState.collect { resource ->
+                        when (resource) {
+                            is Resource.Error -> {
+                                isLoadingState = false
+                                showToast(resource.message.toString())
+                            }
+                            is Resource.Loading -> {
+                                isLoadingState = true
+                            }
+                            is Resource.Success -> {
+                                isLoadingState = false
+                                finish()
+                            }
+                            null -> {}
+                        }
+                    }
                 }
             }
         }
@@ -108,6 +118,11 @@ class DetailActivity : BaseActivity() {
         setupToolbar()
 
         val extra = getExtraExt<MealModel>(EXTRA_DATA)
+        if (extra == null) {
+            showToast("Data meal tidak ditemukan")
+            finish()
+            return
+        }
         viewModel.mealModel = extra
         viewModel.getData()
     }

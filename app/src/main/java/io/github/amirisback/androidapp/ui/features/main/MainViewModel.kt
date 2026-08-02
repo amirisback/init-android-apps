@@ -22,16 +22,14 @@ class MainViewModel @Inject constructor(
     val uiState: StateFlow<MainUiState> = _uiState.asStateFlow()
 
     fun searchMeal(name: String = "") {
-        viewModelScope.launch {
-            useCase.searchMeal(
-                nameMeal = name
-            ).onEach { resource ->
+        useCase.searchMeal(nameMeal = name)
+            .onEach { resource ->
                 _uiState.value = when (resource) {
                     is Resource.Loading -> MainUiState.Loading
                     is Resource.Success -> MainUiState.Success(resource.data ?: emptyList())
                     is Resource.Error -> MainUiState.Error(resource.message ?: "Unknown Error")
                 }
-            }.launchIn(viewModelScope)
-        }
+            }
+            .launchIn(viewModelScope)
     }
 }

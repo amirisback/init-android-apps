@@ -29,7 +29,7 @@ import coil.request.ImageRequest
 import io.github.amirisback.androidapp.domain.model.MealModel
 import io.github.amirisback.androidapp.ui.components.AppTopAppBar
 import io.github.amirisback.androidapp.ui.components.LoadingIndicator
-import io.github.amirisback.init.ui.theme.InitTheme
+import io.github.amirisback.androidapp.ui.theme.InitTheme
 
 @Composable
 fun DetailScreen(

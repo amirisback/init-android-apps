@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import io.github.amirisback.androidapp.domain.model.MealModel
-import io.github.amirisback.init.ui.theme.InitTheme
+import io.github.amirisback.androidapp.ui.theme.InitTheme
 
 @Composable
 fun MealCard(
