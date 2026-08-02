@@ -7,15 +7,11 @@ import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -24,20 +20,20 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import dagger.hilt.android.AndroidEntryPoint
 import io.github.amirisback.androidapp.R
 import io.github.amirisback.androidapp.common.base.BaseActivity
-import io.github.amirisback.androidapp.databinding.ActivityMainBinding
 import io.github.amirisback.androidapp.domain.model.MealModel
+import io.github.amirisback.androidapp.ui.components.AppTopAppBar
 import io.github.amirisback.androidapp.ui.detail.DetailActivity
 import io.github.amirisback.androidapp.ui.favorite.FavoriteViewModel
 import io.github.amirisback.androidapp.ui.features.favorite.FavoriteScreen
 import io.github.amirisback.androidapp.ui.features.main.MainScreen
 import io.github.amirisback.androidapp.ui.features.main.MainViewModel
 import io.github.amirisback.init.ui.theme.InitTheme
-import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainActivity : BaseActivity<ActivityMainBinding>() {
+class MainActivity : BaseActivity() {
 
     private val favoriteViewModel: FavoriteViewModel by viewModels()
     private val mainViewModel: MainViewModel by viewModels()
@@ -45,10 +41,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     enum class Tab(val titleRes: Int, val iconRes: Int) {
         MAIN(R.string.title_main, R.drawable.ic_tv),
         FAVORITE(R.string.title_fav, R.drawable.ic_favorite)
-    }
-
-    override fun setupViewBinding(): ActivityMainBinding {
-        return ActivityMainBinding.inflate(layoutInflater)
     }
 
     override fun setupActivityResultExt(result: ActivityResult) {
@@ -62,18 +54,19 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         super.onCreateExt(savedInstanceState)
         enableEdgeToEdge()
         setupToolbar()
-        mainViewModel.searchMeal("Cream") // Trigger search for meals inside MainViewModel
+        mainViewModel.searchMeal("Cream")
+    }
 
-        binding.composeView.setContent {
-            InitTheme {
-                MainActivityScreen(
-                    mainViewModel = mainViewModel,
-                    favoriteViewModel = favoriteViewModel,
-                    onItemClick = { meal ->
-                        startActivityResultExt(DetailActivity.createIntent(this, meal))
-                    }
-                )
-            }
+    @Composable
+    override fun SetupCompose() {
+        InitTheme {
+            MainActivityScreen(
+                mainViewModel = mainViewModel,
+                favoriteViewModel = favoriteViewModel,
+                onItemClick = { meal ->
+                    startActivityResultExt(DetailActivity.createIntent(this, meal))
+                }
+            )
         }
     }
 
@@ -82,7 +75,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainActivityScreen(
     mainViewModel: MainViewModel,
@@ -93,12 +85,8 @@ fun MainActivityScreen(
 
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = { Text(text = stringResource(id = currentTab.titleRes)) },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primaryContainer,
-                    titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer
-                )
+            AppTopAppBar(
+                title = stringResource(id = currentTab.titleRes)
             )
         },
         bottomBar = {

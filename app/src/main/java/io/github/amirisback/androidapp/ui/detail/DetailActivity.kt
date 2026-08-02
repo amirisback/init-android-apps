@@ -3,21 +3,24 @@ package io.github.amirisback.androidapp.ui.detail
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
-import io.github.amirisback.androidapp.common.base.BaseActivity
-import io.github.amirisback.androidapp.common.callback.Resource
-import io.github.amirisback.androidapp.databinding.ActivityDetailBinding
-import io.github.amirisback.androidapp.domain.model.MealModel
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import com.frogobox.sdk.ext.getExtraExt
-import com.frogobox.sdk.ext.gone
-import com.frogobox.sdk.ext.setImageExt
 import com.frogobox.sdk.ext.showToast
 import com.frogobox.sdk.ext.toJson
-import com.frogobox.sdk.ext.visible
 import dagger.hilt.android.AndroidEntryPoint
+import io.github.amirisback.androidapp.common.base.BaseActivity
+import io.github.amirisback.androidapp.common.callback.Resource
+import io.github.amirisback.androidapp.domain.model.MealModel
+import io.github.amirisback.androidapp.ui.features.detail.DetailScreen
+import io.github.amirisback.init.ui.theme.InitTheme
 
 @AndroidEntryPoint
-class DetailActivity : BaseActivity<ActivityDetailBinding>() {
+class DetailActivity : BaseActivity() {
 
     companion object {
         const val EXTRA_DATA = "EXTRA_DATA"
@@ -31,33 +34,30 @@ class DetailActivity : BaseActivity<ActivityDetailBinding>() {
         fun launch(context: Context, data: MealModel) {
             context.startActivity(createIntent(context, data))
         }
-
     }
 
     private val viewModel: DetailViewModel by viewModels()
 
-    override fun setupViewBinding(): ActivityDetailBinding {
-        return ActivityDetailBinding.inflate(layoutInflater)
-    }
+    private var isLoadingState by mutableStateOf(false)
+    private var isFavoriteState by mutableStateOf(false)
 
     override fun setupViewModel() {
         viewModel.mealsState.observe(this) {
             when (it) {
                 is Resource.Error -> {
-                    binding.progressView.gone()
+                    isLoadingState = false
                     showToast(it.message.toString())
                 }
 
                 is Resource.Loading -> {
-                    binding.progressView.visible()
+                    isLoadingState = true
                 }
 
                 is Resource.Success -> {
-                    binding.progressView.gone()
+                    isLoadingState = false
                     it.data?.let { items ->
-                        if (!items.isEmpty()) {
-                            binding.btnInsert.gone()
-                            binding.btnDelete.visible()
+                        if (items.isNotEmpty()) {
+                            isFavoriteState = true
                         }
                     }
                 }
@@ -67,18 +67,17 @@ class DetailActivity : BaseActivity<ActivityDetailBinding>() {
         viewModel.insertState.observe(this) {
             when (it) {
                 is Resource.Error -> {
-                    binding.progressView.gone()
+                    isLoadingState = false
                     showToast(it.message.toString())
                 }
 
                 is Resource.Loading -> {
-                    binding.progressView.visible()
+                    isLoadingState = true
                 }
 
                 is Resource.Success -> {
-                    binding.progressView.gone()
-                    binding.btnInsert.gone()
-                    binding.btnDelete.visible()
+                    isLoadingState = false
+                    isFavoriteState = true
                     showToast("Berhasil Menambahkan Ke Favorite ${it.data?.strMeal}")
                 }
             }
@@ -87,16 +86,16 @@ class DetailActivity : BaseActivity<ActivityDetailBinding>() {
         viewModel.deleteState.observe(this) {
             when (it) {
                 is Resource.Error -> {
-                    binding.progressView.gone()
+                    isLoadingState = false
                     showToast(it.message.toString())
                 }
 
                 is Resource.Loading -> {
-                    binding.progressView.visible()
+                    isLoadingState = true
                 }
 
                 is Resource.Success -> {
-                    binding.progressView.gone()
+                    isLoadingState = false
                     finish()
                 }
             }
@@ -105,29 +104,29 @@ class DetailActivity : BaseActivity<ActivityDetailBinding>() {
 
     override fun onCreateExt(savedInstanceState: Bundle?) {
         super.onCreateExt(savedInstanceState)
-        setupDetailActivity("Detail Meals")
+        enableEdgeToEdge()
+        setupToolbar()
 
         val extra = getExtraExt<MealModel>(EXTRA_DATA)
         viewModel.mealModel = extra
         viewModel.getData()
-
-        extra?.let {
-            binding.apply {
-                ivUrl.setImageExt(it.strMealThumb)
-                tvSource.text = it.strArea
-                tvTitle.text = it.strMeal
-                tvContent.text = it.strCategory
-
-                btnInsert.setOnClickListener {
-                    viewModel.insertToDB()
-                }
-
-                btnDelete.setOnClickListener {
-                    viewModel.removeFromDb()
-                }
-            }
-        }
-
     }
 
+    @Composable
+    override fun SetupCompose() {
+        InitTheme {
+            DetailScreen(
+                meal = viewModel.mealModel,
+                isLoading = isLoadingState,
+                isFavorite = isFavoriteState,
+                onBackClick = { finish() },
+                onInsertClick = { viewModel.insertToDB() },
+                onDeleteClick = { viewModel.removeFromDb() }
+            )
+        }
+    }
+
+    private fun setupToolbar() {
+        supportActionBar?.hide()
+    }
 }

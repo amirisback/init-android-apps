@@ -1,7 +1,6 @@
 package io.github.amirisback.androidapp.common.base
 
-import androidx.viewbinding.ViewBinding
-import com.frogobox.sdk.view.FrogoBindFragment
+import com.frogobox.compose.view.FrogoComposeFragment
 
 /**
  * Created by Faisal Amir
@@ -21,11 +20,6 @@ import com.frogobox.sdk.view.FrogoBindFragment
  *
  */
 
-abstract class BaseFragment<VB : ViewBinding> : FrogoBindFragment<VB>(), IBaseFragment {
-
-
-    protected val mActivity: BaseActivity<*> by lazy {
-        (activity as BaseActivity<*>)
-    }
+abstract class BaseFragment : FrogoComposeFragment(), IBaseFragment {
 
 }

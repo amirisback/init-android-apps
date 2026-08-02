@@ -4,21 +4,19 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.runtime.Composable
 import io.github.amirisback.androidapp.common.base.BaseActivity
-import io.github.amirisback.androidapp.databinding.ActivityAboutUsBinding
 import io.github.amirisback.androidapp.ui.features.about.AboutUsScreen
 import io.github.amirisback.init.ui.theme.InitTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class AboutUsActivity : BaseActivity<ActivityAboutUsBinding>() {
+class AboutUsActivity : BaseActivity() {
 
     companion object {
 
         fun createIntent(context: Context): Intent {
-            return Intent(context, AboutUsActivity::class.java).apply {
-
-            }
+            return Intent(context, AboutUsActivity::class.java)
         }
 
         fun launch(context: Context) {
@@ -27,23 +25,20 @@ class AboutUsActivity : BaseActivity<ActivityAboutUsBinding>() {
 
     }
 
-    override fun setupViewBinding(): ActivityAboutUsBinding {
-        return ActivityAboutUsBinding.inflate(layoutInflater)
-    }
-
     override fun setupViewModel() {}
 
     override fun onCreateExt(savedInstanceState: Bundle?) {
         super.onCreateExt(savedInstanceState)
         enableEdgeToEdge()
         setupToolbar()
+    }
 
-        binding.composeView.setContent {
-            InitTheme {
-                AboutUsScreen(
-                    onBackClick = { finish() }
-                )
-            }
+    @Composable
+    override fun SetupCompose() {
+        InitTheme {
+            AboutUsScreen(
+                onBackClick = { finish() }
+            )
         }
     }
 

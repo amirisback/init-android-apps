@@ -1,7 +1,6 @@
 package io.github.amirisback.androidapp.common.base
 
-import androidx.viewbinding.ViewBinding
-import com.frogobox.ads.ui.FrogoAdBindActivity
+import com.frogobox.ads.ui.compose.FrogoAdComposeActivity
 
 /**
  * Created by Faisal Amir
@@ -19,6 +18,6 @@ import com.frogobox.ads.ui.FrogoAdBindActivity
  *
  */
 
-abstract class BaseActivity<VB : ViewBinding> : FrogoAdBindActivity<VB>(), IBaseActivity {
+abstract class BaseActivity : FrogoAdComposeActivity(), IBaseActivity {
 
 }
