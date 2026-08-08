@@ -1,4 +1,4 @@
-package io.github.amirisback.androidapp.ui.main
+package io.github.amirisback.androidapp.ui.features.main
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
@@ -26,10 +26,8 @@ import io.github.amirisback.androidapp.common.base.BaseActivity
 import io.github.amirisback.androidapp.domain.model.MealModel
 import io.github.amirisback.androidapp.ui.components.AppTopAppBar
 import io.github.amirisback.androidapp.ui.detail.DetailActivity
-import io.github.amirisback.androidapp.ui.favorite.FavoriteViewModel
 import io.github.amirisback.androidapp.ui.features.favorite.FavoriteScreen
-import io.github.amirisback.androidapp.ui.features.main.MainScreen
-import io.github.amirisback.androidapp.ui.features.main.MainViewModel
+import io.github.amirisback.androidapp.ui.features.favorite.FavoriteViewModel
 import io.github.amirisback.androidapp.ui.theme.InitTheme
 
 @AndroidEntryPoint
