@@ -1,16 +1,15 @@
 package io.github.amirisback.androidapp.ui.features.main
 
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.amirisback.androidapp.common.base.BaseViewModel
 import io.github.amirisback.androidapp.common.callback.Resource
 import io.github.amirisback.androidapp.domain.source.meal.usecase.MealUseCase
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel

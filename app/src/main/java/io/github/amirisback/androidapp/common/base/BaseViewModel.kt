@@ -20,10 +20,6 @@ import com.frogobox.sdk.view.FrogoViewModel
  *
  */
 
-open class BaseViewModel() : FrogoViewModel() {
-
-    override fun onClearDisposable() {
-        super.onClearDisposable()
-    }
+open class BaseViewModel : FrogoViewModel() {
 
 }

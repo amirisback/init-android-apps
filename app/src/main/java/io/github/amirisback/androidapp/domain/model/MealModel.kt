@@ -3,8 +3,8 @@ package io.github.amirisback.androidapp.domain.model
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import io.github.amirisback.androidapp.domain.db.DBConfig.TABLE_MEALS
 import com.google.gson.annotations.SerializedName
+import io.github.amirisback.androidapp.domain.db.DBConfig.TABLE_MEALS
 
 /**
  * Created by Faisal Amir

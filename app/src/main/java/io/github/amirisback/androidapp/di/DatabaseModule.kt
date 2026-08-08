@@ -1,13 +1,13 @@
 package io.github.amirisback.androidapp.di
 
 import android.content.Context
-import io.github.amirisback.androidapp.domain.db.ProjectDatabase
-import io.github.amirisback.androidapp.domain.db.dao.MealDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import io.github.amirisback.androidapp.domain.db.ProjectDatabase
+import io.github.amirisback.androidapp.domain.db.dao.MealDao
 import javax.inject.Singleton
 
 @Module

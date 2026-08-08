@@ -1,7 +1,7 @@
 package io.github.amirisback.androidapp.domain.response
 
-import io.github.amirisback.androidapp.domain.model.CategoryModel
 import com.google.gson.annotations.SerializedName
+import io.github.amirisback.androidapp.domain.model.CategoryModel
 
 /**
  * Created by Faisal Amir

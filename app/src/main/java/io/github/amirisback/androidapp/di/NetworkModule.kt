@@ -2,16 +2,16 @@ package io.github.amirisback.androidapp.di
 
 import android.content.Context
 import com.chuckerteam.chucker.api.ChuckerInterceptor
-import io.github.amirisback.androidapp.domain.source.meal.MealApiService
-import io.github.amirisback.androidapp.common.ext.appIsDebug
-import io.github.amirisback.androidapp.util.Constant
-import io.github.amirisback.androidapp.domain.source.meal.MealUrl
 import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import io.github.amirisback.androidapp.common.ext.appIsDebug
+import io.github.amirisback.androidapp.domain.source.meal.MealApiService
+import io.github.amirisback.androidapp.domain.source.meal.MealUrl
+import io.github.amirisback.androidapp.util.Constant
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 import okhttp3.ResponseBody

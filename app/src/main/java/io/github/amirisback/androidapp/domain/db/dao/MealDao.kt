@@ -5,7 +5,6 @@ import androidx.room.Insert
 import androidx.room.Query
 import io.github.amirisback.androidapp.domain.db.DBConfig.TABLE_MEALS
 import io.github.amirisback.androidapp.domain.model.MealModel
-import kotlin.collections.List
 
 /**
  * Created by faisalamircs on 10/09/2025

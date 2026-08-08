@@ -20,6 +20,4 @@ import com.frogobox.compose.view.FrogoComposeFragment
  *
  */
 
-abstract class BaseFragment : FrogoComposeFragment(), IBaseFragment {
-
-}
+abstract class BaseFragment : FrogoComposeFragment(), IBaseFragment

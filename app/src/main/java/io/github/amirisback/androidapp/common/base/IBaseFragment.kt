@@ -13,6 +13,4 @@ package io.github.amirisback.androidapp.common.base
  *
  */
 
-interface IBaseFragment {
-
-}
+interface IBaseFragment

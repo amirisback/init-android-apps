@@ -18,7 +18,6 @@ import io.github.amirisback.androidapp.ui.components.EmptyState
 import io.github.amirisback.androidapp.ui.components.ErrorMessage
 import io.github.amirisback.androidapp.ui.components.LoadingIndicator
 import io.github.amirisback.androidapp.ui.components.MealCard
-import io.github.amirisback.androidapp.ui.favorite.FavoriteViewModel
 
 @Composable
 fun FavoriteScreen(

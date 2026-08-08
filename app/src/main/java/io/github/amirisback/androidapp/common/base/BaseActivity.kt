@@ -18,6 +18,4 @@ import com.frogobox.ads.ui.compose.FrogoAdComposeActivity
  *
  */
 
-abstract class BaseActivity : FrogoAdComposeActivity(), IBaseActivity {
-
-}
+abstract class BaseActivity : FrogoAdComposeActivity(), IBaseActivity

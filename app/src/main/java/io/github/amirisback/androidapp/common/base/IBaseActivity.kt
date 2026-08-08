@@ -14,6 +14,4 @@ package io.github.amirisback.androidapp.common.base
  *
  */
 
-interface IBaseActivity {
-
-}
+interface IBaseActivity

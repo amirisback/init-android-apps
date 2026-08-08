@@ -2,10 +2,10 @@ package io.github.amirisback.androidapp.domain.source.meal
 
 import io.github.amirisback.androidapp.domain.model.AreaModel
 import io.github.amirisback.androidapp.domain.model.CategoryModel
-import io.github.amirisback.androidapp.domain.response.CategoryResponse
 import io.github.amirisback.androidapp.domain.model.IngredientModel
-import io.github.amirisback.androidapp.domain.model.MealModel
 import io.github.amirisback.androidapp.domain.model.MealFilterModel
+import io.github.amirisback.androidapp.domain.model.MealModel
+import io.github.amirisback.androidapp.domain.response.CategoryResponse
 import io.github.amirisback.androidapp.domain.response.MealResponse
 import io.github.amirisback.androidapp.domain.source.meal.MealConstant.PATH_API_KEY
 import io.github.amirisback.androidapp.domain.source.meal.MealConstant.QUERY_AREA

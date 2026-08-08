@@ -1,11 +1,11 @@
 package io.github.amirisback.androidapp.ui.detail
 
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.amirisback.androidapp.common.base.BaseViewModel
 import io.github.amirisback.androidapp.common.callback.Resource
 import io.github.amirisback.androidapp.domain.model.MealModel
 import io.github.amirisback.androidapp.domain.source.meal.usecase.MealUseCase
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
