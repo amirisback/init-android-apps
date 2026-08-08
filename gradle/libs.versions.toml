@@ -1,35 +1,34 @@
 [versions]
-agp = "9.2.0"
-kotlin = "2.3.20"
-ksp = "2.3.6"
-hilt = "2.59.2"
-googleServices = "4.4.4"
-crashlytics = "3.0.7"
+agp = "9.3.1"
+kotlin = "2.4.10"
+ksp = "2.3.10"
+hilt = "2.60.1"
+composeBom = "2026.06.01"
+activityCompose = "1.13.0"
 
-constraintlayout = "2.2.1"
-liveCycle = "2.10.0"
+liveCycle = "2.11.0"
 roomKtx = "2.8.4"
-work = "2.11.2"
-swiperefreshlayout = "1.2.0"
 
-firebaseBom = "34.12.0"
-glide = "5.0.7"
-balloon = "1.7.6"
+glide = "5.0.9"
 chucker = "4.3.1"
 
-mixpanel = "8.5.2"
-
-frogoAndroid = "2.3.7"
+frogoAndroid = "3.0.5"
+coil = "2.7.0"
 
 [libraries]
 # Android Kit
-androidx-work-ktx = { group = "androidx.work", name = "work-runtime-ktx", version.ref = "work" }
-
-androidx-swiperefreshlayout = { group = "androidx.swiperefreshlayout", name = "swiperefreshlayout", version.ref = "swiperefreshlayout" }
-
-androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 androidx-lifecycle-compiler = { group = "androidx.lifecycle", name = "lifecycle-compiler", version.ref = "liveCycle" }
 androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "roomKtx" }
+androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
+androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
+androidx-lifecycle-runtime-compose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "liveCycle" }
+androidx-lifecycle-viewmodel-compose = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "liveCycle" }
+androidx-compose-ui = { group = "androidx.compose.ui", name = "ui" }
+androidx-compose-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
+androidx-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
+androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
+androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3" }
+androidx-compose-foundation = { group = "androidx.compose.foundation", name = "foundation" }
 
 hilt = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
@@ -37,22 +36,15 @@ hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", v
 github-chucker = { group = "com.github.chuckerteam.chucker", name = "library", version.ref = "chucker" }
 github-chucker-no-op = { module = "com.github.chuckerteam.chucker:library-no-op", version.ref = "chucker" }
 
-firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebaseBom" }
-firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics" }
-firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics" }
-
 # --------------------------------------------------------------------------------------------------
 # Test Library
 
 # --------------------------------------------------------------------------------------------------
 # Library
-
-mixpanel = { group = "com.mixpanel.android", name = "mixpanel-android", version.ref = "mixpanel" }
-
 github-glide-compiler = { group = "com.github.bumptech.glide", name = "ksp", version.ref = "glide" }
-github-balloon = { group = "com.github.skydoves", name = "balloon", version.ref = "balloon" }
 
 frogo-android = { group = "com.github.frogobox", name = "frogo-sdk", version.ref = "frogoAndroid" }
+coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
 
 # --------------------------------------------------------------------------------------------------
 
@@ -63,5 +55,4 @@ android-dynamic-feature = { id = "com.android.dynamic-feature", version.ref = "a
 kotlinParcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
-gms-google-services = { id = "com.google.gms.google-services", version.ref = "googleServices" }
-firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "crashlytics" }
+kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }

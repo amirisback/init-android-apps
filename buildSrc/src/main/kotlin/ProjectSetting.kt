@@ -14,10 +14,10 @@
 object ProjectSetting {
 
     // Project settings
-    const val NAME_APP = "Frogo Kick Start Project"
+    const val NAME_APP = "Kick Start"
 
-    const val APP_DOMAIN = "com"
-    const val APP_PLAY_CONSOLE = "frogobox"
+    const val APP_DOMAIN = "io.github"
+    const val APP_PLAY_CONSOLE = "amirisback"
 
     // ---------------------------------------------------------------------------------------------
 
@@ -35,7 +35,7 @@ object ProjectSetting {
     // ---------------------------------------------------------------------------------------------
 
     const val PROJECT_MIN_SDK = 23
-    const val PROJECT_COMPILE_SDK = 36
+    const val PROJECT_COMPILE_SDK = 37
     const val PROJECT_TARGET_SDK = PROJECT_COMPILE_SDK
 
     // ---------------------------------------------------------------------------------------------
