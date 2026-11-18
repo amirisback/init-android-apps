@@ -32,7 +32,6 @@ android {
         versionCode = ProjectSetting.PROJECT_VERSION_CODE
         versionName = ProjectSetting.PROJECT_VERSION_NAME
 
-        multiDexEnabled = true
         vectorDrawables.useSupportLibrary = true
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -96,7 +95,6 @@ android {
     }
 
     buildFeatures {
-        viewBinding = true
         buildConfig = true
         resValues = true
         compose = true
@@ -138,7 +136,6 @@ dependencies {
     ksp(libs.hilt.compiler)
     ksp(libs.androidx.lifecycle.compiler)
     ksp(libs.androidx.room.compiler)
-    ksp(libs.github.glide.compiler)
 
     // Compose
     implementation(platform(libs.androidx.compose.bom))
@@ -151,6 +148,11 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.coil.compose)
+    implementation(libs.coil.network.okhttp)
     debugImplementation(libs.androidx.compose.ui.tooling)
+
+    // Unit Testing (JVM)
+    testImplementation(libs.junit)
+    testImplementation(libs.kotlinx.coroutines.test)
 
 }

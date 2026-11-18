@@ -1,60 +1,82 @@
 ![ScreenShoot Apps](docs/image/ss_banner.png?raw=true)
 
-## About This Project
+# init-android-apps
+
 [![Android-CI](https://github.com/frogobox/frogo-kick-start-android/actions/workflows/android-ci.yml/badge.svg)](https://github.com/frogobox/frogo-kick-start-android/actions/workflows/android-ci.yml)
-- Privacy Policy [Click Here](https://github.com/frogobox/frogo-kick-start-android/blob/master/PRIVACY-POLICY.md)
-- License [Click Here](https://github.com/frogobox/frogo-kick-start-android/blob/master/LICENSE)
-- Template Reuse Code For Monetizing Apps
-- Template Code Monetize Frogobox For Android Kick Start Project
 
-## Version Release
-This Is Latest Release (Still Being Developed)
+Modern, Google-standard, AI-ready Android starter template built with **Jetpack Compose Material 3**, **Clean Architecture**, **Unidirectional Data Flow (UDF)**, **Hilt**, **Room**, and **Retrofit**.
 
-    $version_release = 1.0.0
+- **Architecture Deep Dive:** [ARCHITECTURE.md](ARCHITECTURE.md)
+- **AI Agent Guidelines:** [AGENTS.md](AGENTS.md)
+- **Privacy Policy:** [PRIVACY-POLICY.md](PRIVACY-POLICY.md)
+- **License:** [LICENSE](LICENSE)
 
+---
 
-## Screenshoot Apps
-|                             UI 1                             |                             UI 2                             |                             UI 3                             |
-|:------------------------------------------------------------:|:------------------------------------------------------------:|:------------------------------------------------------------:|
+## Architecture Summary
+
+The `:app` module (`io.github.amirisback.androidapp`) is organized into four clean layers aligned with Google's Official Guide to App Architecture:
+
+- **`core/`** — Shared utilities (`Resource`, JSON helpers, BuildConfig accessors), Hilt DI modules (`core/di/`), and Material 3 theme & reusable Compose components (`core/ui/`).
+- **`data/`** — Retrofit API service & DTOs (`data/remote/`), Room `AppDatabase` / DAO / entities (`data/local/`), bidirectional mappers (`data/mapper/`), and `MealRepositoryImpl` (`data/repository/`).
+- **`domain/`** — 100% pure Kotlin immutable domain models (`domain/model/`), repository contracts (`domain/repository/`), and use cases (`domain/usecase/`) with zero Android or network framework imports.
+- **`feature/`** — Feature packages (`main`, `favorite`, `detail`, `about`) following UDF (`*UiState` + `ViewModel` + `<Feature>Route` + stateless `<Feature>Screen` with `@Preview`).
+
+See [ARCHITECTURE.md](ARCHITECTURE.md) for the full package map, import boundary table, and step-by-step feature checklist.
+
+---
+
+## Tech Stack
+
+| Category | Technology & Version |
+|---|---|
+| **SDK & JVM** | `minSdk 24` · `compileSdk 37` · `targetSdk 37` · JVM `17` |
+| **Build & Compiler** | AGP `9.5.1` · Kotlin `2.4.21` · KSP `2.3.14` · Gradle `9.9.1` |
+| **UI & Design** | Jetpack Compose (BOM `2026.09.00`) · Material 3 · Edge-to-Edge |
+| **Dependency Injection** | Hilt `2.60.1` |
+| **Persistence** | Room `2.8.5` (with KSP schema export) |
+| **Networking** | Retrofit · OkHttp · Gson · Chucker `4.4.0` |
+| **Image Loading** | Coil `3.6.3` (`coil-compose`, `coil-network-okhttp`) |
+| **Async & State** | Kotlin Coroutines · `Flow` · `StateFlow` (`collectAsStateWithLifecycle`) |
+| **Android Utilities** | Frogo SDK `4.0.0` |
+| **Testing (JVM)** | JUnit `4.13.2` · `kotlinx-coroutines-test` `1.10.2` |
+
+---
+
+## Getting Started (Template Customization)
+
+1. Update application metadata (`NAME_APP`, `APP_DOMAIN`, `APP_PLAY_CONSOLE`, version code/name, database & preference names) in `buildSrc/src/main/kotlin/ProjectSetting.kt`.
+2. Update AdMob debug and release unit IDs in `buildSrc/src/main/kotlin/ProjectAds.kt`.
+3. Update `namespace` in `app/build.gradle.kts` and package directories if renaming the root package.
+4. Review [ARCHITECTURE.md](ARCHITECTURE.md) and [AGENTS.md](AGENTS.md) before scaffolding new features.
+
+---
+
+## Build & Verification Commands
+
+```bash
+# Assemble debug APK & export Room schema via KSP
+./gradlew assembleDebug
+
+# Run JVM unit tests
+./gradlew testDebugUnitTest
+
+# Run Android Lint verification
+./gradlew lintDebug
+```
+
+---
+
+## Screenshots
+
+| UI 1 | UI 2 | UI 3 |
+|:---:|:---:|:---:|
 | <img width="200px" height="360px" src="docs/image/ss_1.png"> | <img width="200px" height="360px" src="docs/image/ss_2.png"> | <img width="200px" height="360px" src="docs/image/ss_3.png"> |
 
-## Architecture
--   Pattern  [Model-View-ViewModel](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93viewmodel)  (MVVM) facilitating a [separation](https://en.wikipedia.org/wiki/Separation_of_concerns) of development of the graphical user interface.
--   [S.O.L.I.D](https://en.wikipedia.org/wiki/SOLID)  design principles intended to make software designs more understandable, flexible and maintainable.
+---
 
-## Tech-stack
-Min API level is set to 21, so the presented approach is suitable for over 94% of devices running Android. This project takes advantage of many popular libraries and tools of the Android ecosystem. Most of the libraries are in the stable version unless there is a good reason to use non-stable dependency.
--   [Jetpack](https://developer.android.com/jetpack):
-    -   [Android KTX](https://developer.android.com/kotlin/ktx.html)  - provide concise, idiomatic Kotlin to Jetpack and Android platform APIs.
-    -   [AndroidX](https://developer.android.com/jetpack/androidx)  - major improvement to the original Android  [Support Library](https://developer.android.com/topic/libraries/support-library/index), which is no longer maintained.
-    -   [View Binding](https://developer.android.com/topic/libraries/view-binding)  - allows you to more easily write code that interacts with views/
-    -   [Lifecycle](https://developer.android.com/topic/libraries/architecture/lifecycle)  - perform actions in response to a change in the lifecycle status of another component, such as activities and fragments.
-    -   [LiveData](https://developer.android.com/topic/libraries/architecture/livedata)  - lifecycle-aware, meaning it respects the lifecycle of other app components, such as activities, fragments, or services.
-    -   [Navigation](https://developer.android.com/guide/navigation/)  - helps you implement navigation, from simple button clicks to more complex patterns, such as app bars and the navigation drawer.
-    -   [Room](https://developer.android.com/topic/libraries/architecture/room)  - persistence library provides an abstraction layer over SQLite to allow for more robust database access while harnessing the full power of SQLite.
-    -   [ViewModel](https://developer.android.com/topic/libraries/architecture/viewmodel)  - designed to store and manage UI-related data in a lifecycle conscious way. The ViewModel class allows data to survive configuration changes such as screen rotations.
--   [Coroutines](https://kotlinlang.org/docs/reference/coroutines-overview.html)  - managing background threads with simplified code and reducing needs for callbacks.
--   [Coroutines Flow](https://kotlinlang.org/docs/reference/coroutines-overview.html)  - cold asynchronous data stream that sequentially emits values and completes normally or with an exception
--   [Hilt](https://dagger.dev/)  - dependency injector for replacement all Factory classes.
--   [Retrofit](https://square.github.io/retrofit/)  - type-safe HTTP client.
--   [Glide](https://github.com/bumptech/glide)  - image loading and caching library
+## Contributors
 
-## Colaborator
-Very open to anyone, I'll write your name under this, please contribute by sending an email to me
+- **Muhammad Faisal Amir** (`faisalamircs@gmail.com`)
 
-- Mail To faisalamircs@gmail.com
-- Subject : Github _ [Github-Username-Account] _ [Language] _ [Repository-Name]
-- Example : Github_amirisback_kotlin_admob-helper-implementation
-
-Name Of Contribute
-- Muhammad Faisal Amir
-- Waiting List
-- Waiting List
-
-Waiting for your contribute
-
-## Attention !!!
-Please enjoy and don't forget fork and give a star
-- Don't Forget Follow My Github Account
-
-![ScreenShoot Apps](docs/image/mad_score.png?raw=true)
+![MAD Score](docs/image/mad_score.png?raw=true)

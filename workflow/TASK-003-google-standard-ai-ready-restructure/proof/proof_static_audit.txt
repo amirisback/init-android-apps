@@ -1,0 +1,84 @@
+﻿=== TASK-003 STATIC AUDIT (SANDRA QA) ===
+Timestamp: 2026-11-18 13:53:06 +07:00
+
+--- [AC-01] Top-level entries under app/src/main/java/io/github/amirisback/androidapp ---
+  [DIR]  domain
+  [DIR]  feature
+  [DIR]  core
+  [DIR]  data
+  [FILE] ProjectApplication.kt
+Legacy root dirs found: 0
+
+--- [AC-02] Domain layer forbidden imports & annotations ---
+Domain .kt file count: 8
+Domain violations count: 0
+
+--- [AC-02] Feature -> Data direct imports ---
+Feature .kt file count: 13
+Feature->Data violations count: 0
+
+--- [AC-02] Annotation location verification ---
+@SerializedName files: 7 | outside data/remote/dto: 0
+Room @Entity/@Dao/@Database files: 3 | outside data/local: 0
+data/mapper .kt files: 1
+  MealMapper.kt
+
+--- [AC-04] UDF Resource leak check in feature/ ---
+StateFlow<Resource< leaks in feature/: 0
+collectAsStateWithLifecycle usages in feature/: 6
+  DetailScreen.kt:31 -> import androidx.lifecycle.compose.collectAsStateWithLifecycle
+  DetailScreen.kt:50 -> val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+  FavoriteScreen.kt:15 -> import androidx.lifecycle.compose.collectAsStateWithLifecycle
+  FavoriteScreen.kt:33 -> val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+  MainScreen.kt:14 -> import androidx.lifecycle.compose.collectAsStateWithLifecycle
+  MainScreen.kt:28 -> val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+@Preview annotations in feature/: 12
+  AboutUsScreen.kt:79
+  AboutUsScreen.kt:87
+  DetailScreen.kt:213
+  DetailScreen.kt:226
+  DetailScreen.kt:239
+  FavoriteScreen.kt:76
+  FavoriteScreen.kt:97
+  FavoriteScreen.kt:108
+  MainScreen.kt:71
+  MainScreen.kt:99
+  MainScreen.kt:110
+  MainScreen.kt:121
+
+--- [AC-05] MealApiService @GET & Room Schema Hygiene ---
+  Line 83: prev='@GET(URL_FILTER)' | sig='suspend fun filterByCategory('
+  Line 89: prev='@GET(URL_FILTER)' | sig='suspend fun filterByArea('
+Stale ProjectDatabase schema dirs: 0
+Current Room schema JSON files: 1
+  D:\AndroidProject\init-android-apps\app\schemas\io.github.amirisback.androidapp.data.local.database.AppDatabase\1.json | validJson=True
+
+--- [AC-06] Legacy Files & Wrong-Project Header Scan ---
+  Legacy file BaseFragment.kt count: 0
+  Legacy file IBaseFragment.kt count: 0
+  Legacy file IBaseActivity.kt count: 0
+  Legacy file OnItemClickCallback.kt count: 0
+  Legacy file BaseActivity.kt count: 0
+  Legacy file BaseViewModel.kt count: 0
+  Legacy file Constant.kt count: 0
+Wrong-project headers/dead constants hits: 0
+
+--- [AC-07] Docs Audit (AGENTS.md, ARCHITECTURE.md, README.md) ---
+AGENTS.md 'piano-tiles' hits: 0
+AGENTS.md 'ARCHITECTURE.md' refs: 1
+ARCHITECTURE.md exists: True
+README.md obsolete stack hits (Glide|LiveData|ViewBinding|minSdk 21): 0
+
+--- [AC-09] Zero @Suppress / @SuppressWarnings Scan ---
+Total .kt files scanned (main+test): 63
+@Suppress / @SuppressWarnings hits: 0
+
+--- [SEC-01..SEC-08] Security & Reliability Checks ---
+SEC-01/SEC-04 Manifest usesCleartextTraffic=false: True
+SEC-04 Manifest usesCleartextTraffic=true: False
+SEC-04 network_security_config newsapi.org hits: False
+SEC-05 proguard DTO keep rule present: True
+SEC-06 CancellationException refs in DataSources: 4
+SEC-07 Hardcoded Dispatchers.IO in DataSources: 0
+SEC-07 @IoDispatcher injections in DataSources: 2
+SEC-08 NetworkModule @Provides count: 5 | @Singleton count: 5

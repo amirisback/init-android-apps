@@ -1,7 +1,7 @@
 [versions]
-agp = "9.4.1"
-kotlin = "2.4.20"
-ksp = "2.3.10"
+agp = "9.5.1"
+kotlin = "2.4.21"
+ksp = "2.3.14"
 hilt = "2.60.1"
 composeBom = "2026.09.00"
 activityCompose = "1.13.0"
@@ -9,11 +9,12 @@ activityCompose = "1.13.0"
 liveCycle = "2.11.0"
 roomKtx = "2.8.5"
 
-glide = "5.0.9"
-chucker = "4.3.1"
+chucker = "4.4.0"
 
-frogoAndroid = "3.0.5"
-coil = "2.7.0"
+frogoAndroid = "4.0.0"
+coil = "3.6.3"
+junit = "4.13.2"
+coroutinesTest = "1.10.2"
 
 [libraries]
 # Android Kit
@@ -38,13 +39,14 @@ github-chucker-no-op = { module = "com.github.chuckerteam.chucker:library-no-op"
 
 # --------------------------------------------------------------------------------------------------
 # Test Library
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutinesTest" }
 
 # --------------------------------------------------------------------------------------------------
 # Library
-github-glide-compiler = { group = "com.github.bumptech.glide", name = "ksp", version.ref = "glide" }
-
 frogo-android = { group = "com.github.frogobox", name = "frogo-sdk", version.ref = "frogoAndroid" }
-coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
+coil-compose = { group = "io.coil-kt.coil3", name = "coil-compose", version.ref = "coil" }
+coil-network-okhttp = { group = "io.coil-kt.coil3", name = "coil-network-okhttp", version.ref = "coil" }
 
 # --------------------------------------------------------------------------------------------------
 

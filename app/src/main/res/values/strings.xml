@@ -1,36 +1,25 @@
 <resources>
-    <!-- Ads Banner Size -->
-    <string name="ads_size_banner">BANNER</string> <!-- 320x50dp -->
-    <string name="ads_size_large_banner">LARGE_BANNER</string> <!-- 320x100dp -->
-    <string name="ads_size_medium_rectangle">MEDIUM_RECTANGLE</string> <!-- 300x250dp -->
-    <string name="ads_size_full_banner">FULL_BANNER</string> <!-- 468x60dp -->
-    <string name="ads_size_leader_board">LEADERBOARD</string> <!-- 728x90dp -->
-    <string name="ads_size_smart_banner">SMART_BANNER</string> <!-- match_parent -->
-
-    <string name="about_frogobox">Frogobox Software Industry</string>
-    <string name="about_copyright">© Copyright 2019</string>
-
-    <string name="title_about_us">toolbar_about_us</string>
-    <string name="title_copyright">Copyright</string>
-
-    <string name="dummyLong">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam veniam similiquevoluptates odit, ipsum laborum architecto distinctio harum, provident fugiat praesentium ex quod doloreslaudantium aliquid quidem placeat incidunt vitae!</string>
-    <string name="dummy">Dummy</string>
-
-    <string name="dialog_button_yes">Yes</string>
-    <string name="dialog_button_no">No</string>
-    <string name="dialog_title_delete">Delete Data</string>
-    <string name="dialog_message_delete">Are you sure you want to delete data?</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
-    <!-- ^^^ TEMPLATE CODE ^^^  -->
-
+    <!-- Screen & Navigation Titles -->
     <string name="title_main">Main</string>
     <string name="title_fav">Favorite</string>
-    <string name="title_consumable">Consumable</string>
-    <string name="frogo_is_empty_data">Data is empty</string>
+    <string name="title_detail">Detail Meals</string>
+    <string name="title_about_us">About Us</string>
 
+    <!-- Actions -->
+    <string name="action_add_favorite">Insert to Database</string>
+    <string name="action_remove_favorite">Remove From Database</string>
 
+    <!-- Feedback & State Messages -->
+    <string name="message_empty_data">Data is empty</string>
+    <string name="message_meal_not_found">Meal data not found</string>
+    <string name="message_added_to_favorite">Added %1$s to favorites</string>
+
+    <!-- Content Descriptions (Accessibility) -->
+    <string name="cd_navigate_back">Back</string>
+    <string name="cd_app_logo">Frogobox Logo</string>
+    <string name="cd_meal_image">Meal thumbnail</string>
+
+    <!-- About Screen -->
+    <string name="about_frogobox">Frogobox Software Industry</string>
+    <string name="about_copyright">© Copyright 2019</string>
 </resources>
-
