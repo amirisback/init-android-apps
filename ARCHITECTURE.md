@@ -33,9 +33,30 @@ io.github.amirisback.androidapp/
 |   |-- di/
 |   |   |-- DatabaseModule.kt
 |   |   |-- DispatcherModule.kt
+|   |   |-- GameModule.kt
 |   |   |-- NetworkModule.kt
 |   |   |-- RepositoryModule.kt
 |   |   |-- UseCaseModule.kt
+|   |-- game/
+|   |   |-- ads/
+|   |   |   |-- AdMobRewardedAdController.kt
+|   |   |   |-- RewardedAdController.kt
+|   |   |   |-- RewardedAdState.kt
+|   |   |-- audio/
+|   |   |   |-- AndroidGameAudioManager.kt
+|   |   |   |-- GameAudioController.kt
+|   |   |-- loop/
+|   |   |   |-- FixedTimestepClock.kt
+|   |   |   |-- GameLoopController.kt
+|   |   |-- render/
+|   |   |   |-- GameCanvas.kt
+|   |   |   |-- GameSurfaceView.kt
+|   |   |-- save/
+|   |   |   |-- DataStoreGameSaveStore.kt
+|   |   |   |-- GameSaveSnapshot.kt
+|   |   |   |-- GameSaveStore.kt
+|   |   |-- window/
+|   |       |-- ImmersiveModeEffect.kt
 |   |-- ui/
 |       |-- component/
 |       |   |-- AppTopAppBar.kt
@@ -97,6 +118,11 @@ io.github.amirisback.androidapp/
     |   |-- FavoriteScreen.kt
     |   |-- FavoriteUiState.kt
     |   |-- FavoriteViewModel.kt
+    |-- game/
+    |   |-- GameActivity.kt
+    |   |-- GameScreen.kt
+    |   |-- GameUiState.kt
+    |   |-- GameViewModel.kt
     |-- main/
         |-- MainActivity.kt
         |-- MainScreen.kt
@@ -110,7 +136,13 @@ io.github.amirisback.androidapp/
 io.github.amirisback.androidapp/
 |-- core/
 |   |-- common/
-|       |-- JsonExtTest.kt
+|   |   |-- JsonExtTest.kt
+|   |-- game/
+|       |-- loop/
+|       |   |-- FixedTimestepClockTest.kt
+|       |   |-- GameLoopControllerTest.kt
+|       |-- save/
+|           |-- DataStoreGameSaveStoreTest.kt
 |-- data/
 |   |-- mapper/
 |   |   |-- MealMapperTest.kt
@@ -121,12 +153,17 @@ io.github.amirisback.androidapp/
 |   |   |-- DetailViewModelTest.kt
 |   |-- favorite/
 |   |   |-- FavoriteViewModelTest.kt
+|   |-- game/
+|   |   |-- GameViewModelTest.kt
 |   |-- main/
 |       |-- MainViewModelTest.kt
 |-- testutil/
+    |-- FakeGameAudioController.kt
+    |-- FakeGameSaveStore.kt
     |-- FakeMealApiService.kt
     |-- FakeMealDao.kt
     |-- FakeMealUseCase.kt
+    |-- FakeRewardedAdController.kt
     |-- MainDispatcherRule.kt
 ```
 
@@ -138,6 +175,7 @@ io.github.amirisback.androidapp/
 flowchart TD
     Feature["feature/* (Activities, Routes, Screens, ViewModels)"]
     CoreUI["core/ui (Theme & Shared Components)"]
+    CoreGame["core/game (Opt-in 2D Loop, Canvas/Surface, Audio, Save, Ads, Immersive)"]
     CoreCommon["core/common (Resource, JsonExt, BuildConfigExt)"]
     CoreDI["core/di (Hilt Modules)"]
     Domain["domain/* (Pure Kotlin Models, Repository Contracts, UseCases)"]
@@ -145,12 +183,14 @@ flowchart TD
 
     Feature --> Domain
     Feature --> CoreUI
+    Feature --> CoreGame
     Feature --> CoreCommon
     CoreUI --> Domain
     Data --> Domain
     Data --> CoreCommon
     CoreDI --> Data
     CoreDI --> Domain
+    CoreDI --> CoreGame
     CoreDI --> CoreCommon
 ```
 
@@ -158,10 +198,11 @@ flowchart TD
 
 | Package | Allowed Imports | Forbidden Imports |
 |---|---|---|
-| `domain/` | Kotlin stdlib, `kotlinx.coroutines.*`, `javax.inject.Inject`, `core.common.Resource` | `android.*`, `androidx.*`, `retrofit2.*`, `com.google.gson.*`, `okhttp3.*`, `data.*`, `feature.*` |
+| `domain/` | Kotlin stdlib, `kotlinx.coroutines.*`, `javax.inject.Inject`, `core.common.Resource` | `android.*`, `androidx.*`, `retrofit2.*`, `com.google.gson.*`, `okhttp3.*`, `data.*`, `feature.*`, `core.game.*` |
 | `data/` | `domain.*`, `core.common.*`, `core.di.IoDispatcher`, `androidx.room.*`, `retrofit2.*`, `com.google.gson.*`, `okhttp3.*`, `javax.inject.*` | `feature.*`, `androidx.compose.*` |
-| `feature/` | `domain.*`, `core.ui.*`, `core.common.*`, `androidx.compose.*`, `androidx.lifecycle.*`, `androidx.activity.*`, `com.frogobox.*`, `dagger.hilt.*` | `data.*` (never import DAO, Entity, DTO, API Service, or `MealRepositoryImpl`) |
-| `core/di/` | `data.*`, `domain.*`, `core.common.*`, Hilt, Room, Retrofit, OkHttp, Chucker | `feature.*`, `androidx.compose.*` |
+| `feature/` | `domain.*`, `core.ui.*`, `core.game.*`, `core.common.*`, `androidx.compose.*`, `androidx.lifecycle.*`, `androidx.activity.*`, `com.frogobox.*`, `dagger.hilt.*` | `data.*` (never import DAO, Entity, DTO, API Service, or `MealRepositoryImpl`) |
+| `core/game/` | Kotlin stdlib, `kotlinx.coroutines.*`, `core.di.IoDispatcher`, `androidx.compose.*`, `androidx.lifecycle.*`, `androidx.datastore.*`, `com.google.android.gms.ads.*`, Android media/window APIs, Hilt | `data.*`, `feature.*` |
+| `core/di/` | `data.*`, `domain.*`, `core.game.*`, `core.common.*`, Hilt, Room, DataStore, Retrofit, OkHttp, Chucker | `feature.*`, `androidx.compose.*` |
 | `core/ui/` | `androidx.compose.*`, `coil3.*`, `domain.model.*`, `R` | `data.*`, `feature.*` |
 
 ---
@@ -206,6 +247,7 @@ flowchart TD
 | A coroutine dispatcher qualifier (`@IoDispatcher`, `@DefaultDispatcher`) | `core/di/DispatcherModule.kt` |
 | A shared Compose widget (e.g., top bar, card, loading/empty/error view) | `core/ui/component/` |
 | Material 3 colors, typography, or `InitTheme` | `core/ui/theme/` |
+| Reusable 2D game loop, Canvas/SurfaceView renderer, audio, save store, rewarded ads, or immersive mode | `core/game/` (`loop/`, `render/`, `audio/`, `save/`, `ads/`, `window/`) |
 | Screen-specific state, ViewModel, Route, and stateless Screen | `feature/<featureName>/` |
 | App metadata, version, signing, or AdMob unit IDs | `build-logic/convention/src/main/kotlin/io/github/amirisback/androidapp/convention/ProjectSetting.kt` or `ProjectAds.kt` |
 | Reusable Gradle convention plugin or build-system configuration | `build-logic/convention/src/main/kotlin/io/github/amirisback/androidapp/convention/` (registered in `build-logic/convention/build.gradle.kts` & `gradle/libs.versions.toml`) |
@@ -248,7 +290,40 @@ flowchart TD
 
 ---
 
-## 8. Testing & Verification Commands
+## 8. Opt-In 2D Game Starter Mode (`core/game/` & `feature/game/`)
+
+This template works out of the box as **either** a standard Android app starter (`MainActivity` remains the default launcher) **or** a 2D casual/puzzle/board game starter (including native Kotlin rewrites of Unity 2D games):
+
+- **How to switch into Game Starter mode:** Move the `<intent-filter>` (`MAIN` / `LAUNCHER`) from `.feature.main.MainActivity` to `.feature.game.GameActivity` (setting `android:exported="true"`) in `app/src/main/AndroidManifest.xml`, or build your own `feature/<game>/` screens consuming `core/game/`.
+- **Zero-cost opt-in:** `MobileAdsInitProvider` is removed in `app/src/main/AndroidManifest.xml` via `tools:node="remove"`, so standard non-game apps incur zero AdMob initialization overhead and never crash in release builds when AdMob IDs are blank. `GameModule` binds `GameSaveStore`, `GameAudioController`, and `RewardedAdController` lazily via Hilt; `MobileAds.initialize` is only invoked on first `RewardedAdController.preload()` when both `admob_app_id` and `admob_rewarded_id` are non-blank. Before shipping Rewarded Ads in release, configure both `ProjectSetting.ADMOB_APP_ID` and `ProjectAds.Admob.REWARDED_ID`.
+- **Unity 2D REA Rewrite Mapping:**
+
+| Unity 2D Concept | Native Replacement in `core/game/` |
+|---|---|
+| `FixedUpdate(fixedDeltaTime)` | `FixedTimestepClock` + `GameCanvas(onFixedUpdate = ...)` or `GameSurfaceHost(onFixedUpdate = ...)` |
+| `Time.timeScale = 0` / pause state | `GameLoopController` (`IDLE` / `RUNNING` / `PAUSED`) |
+| 2D Sprite / Canvas rendering | `GameCanvas` (Compose `DrawScope`) or `GameSurfaceHost` (`SurfaceView` + Android `Canvas`) |
+| `PlayerPrefs` / local save | `GameSaveStore` (`DataStoreGameSaveStore` backed by DataStore Preferences) |
+| `AudioSource` / `AudioClip` (SFX + BGM) | `GameAudioController` (`AndroidGameAudioManager` via `SoundPool` + `MediaPlayer`) + `GameAudioLifecycleEffect` |
+| Google Mobile Ads Rewarded | `RewardedAdController` (`AdMobRewardedAdController`, configured in `ProjectAds.kt`) |
+| Fullscreen + `Screen.sleepTimeout` | `ImmersiveModeEffect(enabled = true, keepScreenOn = true)` |
+
+### Pruning Checklist (Keep Only What You Need)
+
+Both tracks share only `ProjectApplication.kt`, `core/common/`, `core/di/DispatcherModule.kt`, `core/ui/theme/`, and `build-logic/convention/`. Neither track imports the other, so either side can be removed cleanly:
+
+- **Starting a Standard App (remove game track):**
+  1. Delete `core/game/`, `feature/game/`, `core/di/GameModule.kt`, and matching tests (`app/src/test/.../core/game/`, `feature/game/`, `testutil/FakeGame*.kt`, `testutil/FakeRewardedAdController.kt`).
+  2. Remove `.feature.game.GameActivity` from `app/src/main/AndroidManifest.xml` and `game_*` strings from `app/src/main/res/values/strings.xml`.
+  3. Optionally remove `libs.google.play.services.ads` (plus the `MobileAdsInitProvider` removal tag in `AndroidManifest.xml`) and `libs.androidx.datastore.preferences` from `app/build.gradle.kts`.
+- **Starting a 2D Game (remove Meal CRUD sample):**
+  1. Delete `data/`, `domain/`, `feature/{main,detail,favorite,about}/`, `core/ui/component/MealCard.kt`, `core/di/{Database,Network,Repository,UseCase}Module.kt`, and matching tests (`app/src/test/.../data/`, `feature/{main,detail,favorite}/`, `testutil/FakeMeal*.kt`).
+  2. In `app/src/main/AndroidManifest.xml`, remove `MainActivity`, `DetailActivity`, and `AboutUsActivity`, then set `.feature.game.GameActivity` to `android:exported="true"` with the `MAIN`/`LAUNCHER` `<intent-filter>`.
+  3. For pure offline games, optionally remove the `androidapp.android.room` plugin, `chucker`, `coil`, and `app/schemas/` from `app/build.gradle.kts`.
+
+---
+
+## 9. Testing & Verification Commands
 
 - **Strategy:** Prefer fast JVM unit tests with lightweight hand-written fakes (`FakeMealApiService`, `FakeMealDao`, `FakeMealUseCase`) over heavy mocking frameworks. Use `MainDispatcherRule` + `kotlinx-coroutines-test` (`UnconfinedTestDispatcher` / `runTest`) for deterministic execution.
 - **Commands:**

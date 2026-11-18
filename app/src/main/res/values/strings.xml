@@ -22,4 +22,23 @@
     <!-- About Screen -->
     <string name="about_frogobox">Frogobox Software Industry</string>
     <string name="about_copyright">© Copyright 2019</string>
+
+    <!-- Game Starter Screen -->
+    <string name="title_game_starter">2D Game Starter</string>
+    <string name="game_label_score">Score: %1$d</string>
+    <string name="game_label_best">Best: %1$d</string>
+    <string name="game_label_coins">Coins: %1$d</string>
+    <string name="game_label_level">Lv. %1$d</string>
+    <string name="game_hint_tap_target">Tap the bouncing target to score</string>
+    <string name="game_state_paused">Paused</string>
+    <string name="game_action_pause">Pause</string>
+    <string name="game_action_resume">Resume</string>
+    <string name="game_action_sfx_on">SFX On</string>
+    <string name="game_action_sfx_off">SFX Off</string>
+    <string name="game_action_bgm_on">BGM On</string>
+    <string name="game_action_bgm_off">BGM Off</string>
+    <string name="game_action_watch_ad">Watch Ad</string>
+    <string name="game_action_loading_ad">Loading Ad…</string>
+    <string name="game_action_load_ad">Load Ad</string>
+    <string name="game_reward_earned">+%1$d %2$s</string>
 </resources>

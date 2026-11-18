@@ -31,6 +31,10 @@ dependencies {
     implementation(libs.coil.compose)
     implementation(libs.coil.network.okhttp)
 
+    // Game Core (Persistence & Monetization)
+    implementation(libs.androidx.datastore.preferences)
+    implementation(libs.google.play.services.ads)
+
     // Unit Testing (JVM)
     testImplementation(libs.junit)
     testImplementation(libs.kotlinx.coroutines.test)

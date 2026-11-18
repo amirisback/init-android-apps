@@ -43,6 +43,7 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
                     resValue("string", "admob_app_id", ProjectAds.Admob.Debug.APP_ID)
                     resValue("string", "admob_banner", ProjectAds.Admob.Debug.BANNER_ID)
                     resValue("string", "admob_interstitial_id", ProjectAds.Admob.Debug.INTERSTITIAL_ID)
+                    resValue("string", "admob_rewarded_id", ProjectAds.Admob.Debug.REWARDED_ID)
                 }
 
                 signingConfigs {
@@ -70,6 +71,7 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
                         resValue("string", "admob_app_id", ProjectAds.Admob.APP_ID)
                         resValue("string", "admob_banner", ProjectAds.Admob.BANNER_ID)
                         resValue("string", "admob_interstitial_id", ProjectAds.Admob.INTERSTITIAL_ID)
+                        resValue("string", "admob_rewarded_id", ProjectAds.Admob.REWARDED_ID)
                     }
                 }
 
