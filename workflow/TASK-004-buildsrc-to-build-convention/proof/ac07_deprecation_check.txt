@@ -1,5 +1,0 @@
-=== Deprecation / Warning Scan across all 3 --warning-mode=all Gradle logs ===
-Count: 0
-
-=== app/build.gradle.kts import & ProjectSetting/ProjectAds scan (expected 0) ===
-Count: 0

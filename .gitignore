@@ -36,3 +36,5 @@ app/version.properties
 .sonar/
 
 gradle/gradle-daemon-jvm.properties
+.vscode
+workflow

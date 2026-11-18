@@ -1,3 +1,0 @@
-=== Debug APK Artifacts ===
-kick-start-100-18-11-2026_02-31-debug.apk (27422164 bytes)
-Matches kick-start-100-dd-MM-yyyy_hh-mm-debug.apk: True
