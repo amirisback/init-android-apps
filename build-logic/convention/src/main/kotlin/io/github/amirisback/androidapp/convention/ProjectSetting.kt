@@ -1,15 +1,4 @@
-/**
- * Created by faisalamir on 19/09/21
- * FrogoRecyclerView
- * -----------------------------------------
- * Name     : Muhammad Faisal Amir
- * E-mail   : faisalamircs@gmail.com
- * Github   : github.com/amirisback
- * -----------------------------------------
- * Copyright (C) 2021 Frogobox Inc.
- * All rights reserved
- *
- */
+package io.github.amirisback.androidapp.convention
 
 object ProjectSetting {
 
@@ -19,26 +8,17 @@ object ProjectSetting {
     const val APP_DOMAIN = "io.github"
     const val APP_PLAY_CONSOLE = "amirisback"
 
-    // ---------------------------------------------------------------------------------------------
-
     // Version App
     const val VERSION_MAJOR = 1
     const val VERSION_MINOR = 0
     const val VERSION_PATCH = 0
 
-    // ---------------------------------------------------------------------------------------------
-
     const val ADMOB_APP_ID = ""
 
-    // ---------------------------------------------------------------------------------------------
     // Default Setting - Do Not Change
-    // ---------------------------------------------------------------------------------------------
-
     const val PROJECT_MIN_SDK = 24
     const val PROJECT_COMPILE_SDK = 37
     const val PROJECT_TARGET_SDK = PROJECT_COMPILE_SDK
-
-    // ---------------------------------------------------------------------------------------------
 
     const val BASE_PACKAGE_NAME = "$APP_DOMAIN.$APP_PLAY_CONSOLE"
 
@@ -48,9 +28,7 @@ object ProjectSetting {
     const val PROJECT_VERSION_CODE = (VERSION_MAJOR * 100) + (VERSION_MINOR * 10) + (VERSION_PATCH * 1)
     const val PROJECT_VERSION_NAME = "$VERSION_MAJOR.$VERSION_MINOR.$VERSION_PATCH"
 
-    // ---------------------------------------------------------------------------------------------
-
-    // Declaration apps name debug mode
+    // Debug display name
     const val DEBUG_ATTRIBUTE = "DEV"
     const val NAME_APP_DEBUG = "$NAME_APP $DEBUG_ATTRIBUTE"
 
@@ -59,11 +37,8 @@ object ProjectSetting {
     val DB = "\"$NAME_DB.db\""
     val PREF = "\"pref_$NAME_DB\""
 
-    // ---------------------------------------------------------------------------------------------
-
     const val PLAYSTORE_STORE_FILE = "frogoboxmedia.jks"
     const val PLAYSTORE_STORE_PASSWORD = "amirisback"
     const val PLAYSTORE_KEY_ALIAS = "frogoisback"
     const val PLAYSTORE_KEY_PASSWORD = "amirisback"
-
 }

@@ -1,8 +1,8 @@
 # Agent Guidelines — `init-android-apps`
 
 - **Project:** `init-android-apps` (Google-standard single-module Android starter template)
-- **Module / Namespace:** `:app` (`io.github.amirisback.androidapp`)
-- **Toolchain & Stack:** AGP `9.5.1`, Kotlin `2.4.21`, KSP `2.3.14`, JVM `17`, `minSdk 24` / `compileSdk 37` / `targetSdk 37`
+- **Module / Namespace:** `:app` (`io.github.amirisback.androidapp`) + included composite build `build-logic/convention` (`io.github.amirisback.androidapp.convention`)
+- **Toolchain & Stack:** AGP `9.5.1` (built-in Kotlin), Kotlin `2.4.21`, KSP `2.3.14`, Gradle `9.9.1`, JVM `17`, `minSdk 24` / `compileSdk 37` / `targetSdk 37`
 - **Core Libraries:** Jetpack Compose M3 (BOM `2026.09.00`), Hilt `2.60.1`, Room `2.8.5`, Retrofit + OkHttp + Gson, Coil `3.6.3`, Chucker `4.4.0`, Frogo SDK `4.0.0`, JUnit `4.13.2`, `kotlinx-coroutines-test` `1.10.2`
 
 > **Mandatory First Step:** Read [`ARCHITECTURE.md`](ARCHITECTURE.md) before creating, moving, or refactoring any source file.
@@ -21,7 +21,8 @@
 
 - Maintain a strict 1:1 match between physical directories and Kotlin `package` declarations in `app/src/main/java` and `app/src/test/java`.
 - Follow Unidirectional Data Flow (UDF) in all stateful features: `ViewModel` exposes a single `StateFlow<*UiState>` (never raw `Resource<T>`) collected via `collectAsStateWithLifecycle()` in `<Feature>Route`, delegating to a stateless, previewable `<Feature>Screen(uiState, onEvent)`.
-- **Zero warning suppression:** Never introduce `@Suppress` or `@SuppressWarnings`. Always migrate deprecated APIs to official modern replacements.
+- **Zero warning suppression:** Never introduce `@Suppress` or `@SuppressWarnings` in `app/src/` or `build-logic/`. Always migrate deprecated APIs to official modern replacements.
+- **Build logic & version catalog:** Keep reusable Gradle build configuration and app metadata (`ProjectSetting.kt`, `ProjectAds.kt`) inside the `build-logic/convention` composite build, sourcing all versions strictly from root `gradle/libs.versions.toml`. Never apply `org.jetbrains.kotlin.android` (AGP 9.5.1 uses built-in Kotlin).
 - Never hardcode `Dispatchers.IO` inside data sources; inject `@IoDispatcher` from `core/di/DispatcherModule.kt` and always rethrow `CancellationException`.
 - Keep Activities inheriting directly from `FrogoComposeActivity` (with `enableEdgeToEdge()`) and ViewModels from `androidx.lifecycle.ViewModel`. Do not reintroduce empty base wrappers, XML layouts, or wrong-project copyright banners.
 - Every new mapper, repository, or ViewModel must include JVM unit tests under `app/src/test/` using hand-written fakes and `kotlinx-coroutines-test`.
@@ -36,7 +37,7 @@ Run all three verification tasks before completing any code change:
 
 Static checks to confirm on every change:
 - Zero forbidden imports (`android.*`, `androidx.*`, `retrofit2.*`, `com.google.gson.*`, `okhttp3.*`, `data.*`, `feature.*`) inside `domain/`.
-- Zero `@Suppress` or `@SuppressWarnings` annotations under `app/src/`.
+- Zero `@Suppress` or `@SuppressWarnings` annotations under `app/src/` and `build-logic/`.
 - Exported Room schema JSON matches `app/schemas/io.github.amirisback.androidapp.data.local.database.AppDatabase/<version>.json`.
 
 ## Relevant Android Skills

@@ -1,0 +1,15 @@
+=== @Suppress / @SuppressWarnings in app/src/ & build-logic/ (expected 0) ===
+Count: 0
+
+=== FrogoRecyclerView stale headers in build-logic/ (expected 0) ===
+Count: 0
+
+=== Forbidden imports in domain/ (expected 0) ===
+Count: 0
+
+=== Keystore (.jks / .keystore) files in workspace (expected 0) ===
+Count: 1
+D:\AndroidProject\init-android-apps\app\frogoboxmedia.jks
+
+=== git diff on AndroidManifest.xml, proguard-rules.pro, app/src/ (expected empty) ===
+(no changes)

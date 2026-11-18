@@ -2,9 +2,15 @@
 
 ## 1. Overview & Architecture Principles
 
-`init-android-apps` follows **Google's Official Guide to App Architecture** and *Now in Android* conventions in a **single-module (`:app`) Clean Architecture** layout partitioned into four top-level layers: `core/`, `data/`, `domain/`, and `feature/`.
+`init-android-apps` follows **Google's Official Guide to App Architecture** and *Now in Android* conventions in a **single-module (`:app`) Clean Architecture** layout partitioned into four top-level layers (`core/`, `data/`, `domain/`, `feature/`) backed by a Gradle composite build (`build-logic/convention`) for shared convention plugins.
 
 - **Why single-module:** Cloning and customizing a starter template stays fast and low-ceremony with a single Gradle module. Strict package-level dependency rules mirror multi-module boundaries so the project can be split into `:core:*`, `:data`, `:domain`, and `:feature:*` modules later with minimal refactoring.
+- **Build Logic (`build-logic/convention`):** Included via `includeBuild("build-logic")` in root `settings.gradle.kts` and reading dependency coordinates strictly from root `gradle/libs.versions.toml`. Four focused convention plugins under `io.github.amirisback.androidapp.convention` encapsulate repetitive Gradle wiring while keeping `app/build.gradle.kts` declarative:
+  - `androidapp.android.application` (`AndroidApplicationConventionPlugin`) — AGP 9.5.1 application config (SDK 24/37, built-in Kotlin with JVM 17 compiler options — never applies `org.jetbrains.kotlin.android`), `BuildConfig` (`DATABASE_NAME`, `PREF_NAME`), debug/release `resValue`s (`app_name`, `admob_*`), release signing & ProGuard, and `base.archivesName`.
+  - `androidapp.android.application.compose` (`AndroidApplicationComposeConventionPlugin`) — Compose compiler plugin, `buildFeatures.compose = true`, Compose BOM, and core Compose/M3/Activity/Lifecycle/Tooling dependencies.
+  - `androidapp.android.hilt` (`AndroidHiltConventionPlugin`) — KSP + Hilt plugin wiring (`hilt-android` + `hilt-compiler`).
+  - `androidapp.android.room` (`AndroidRoomConventionPlugin`) — KSP plugin, `room.schemaLocation` (`$projectDir/schemas`), and `room-compiler`.
+  - App identity & AdMob configuration objects live in `build-logic/convention/src/main/kotlin/io/github/amirisback/androidapp/convention/ProjectSetting.kt` and `ProjectAds.kt`.
 - **Core principles:**
   - Strict separation of concerns (`DTO` vs `Entity` vs pure Kotlin `Domain Model`).
   - Unidirectional Data Flow (UDF) with Jetpack Compose Material 3.
@@ -201,6 +207,8 @@ flowchart TD
 | A shared Compose widget (e.g., top bar, card, loading/empty/error view) | `core/ui/component/` |
 | Material 3 colors, typography, or `InitTheme` | `core/ui/theme/` |
 | Screen-specific state, ViewModel, Route, and stateless Screen | `feature/<featureName>/` |
+| App metadata, version, signing, or AdMob unit IDs | `build-logic/convention/src/main/kotlin/io/github/amirisback/androidapp/convention/ProjectSetting.kt` or `ProjectAds.kt` |
+| Reusable Gradle convention plugin or build-system configuration | `build-logic/convention/src/main/kotlin/io/github/amirisback/androidapp/convention/` (registered in `build-logic/convention/build.gradle.kts` & `gradle/libs.versions.toml`) |
 | Fast JVM unit tests and test fakes | `app/src/test/java/io/github/amirisback/androidapp/` (mirroring main packages) |
 
 ---

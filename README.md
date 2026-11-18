@@ -17,6 +17,7 @@ Modern, Google-standard, AI-ready Android starter template built with **Jetpack 
 
 The `:app` module (`io.github.amirisback.androidapp`) is organized into four clean layers aligned with Google's Official Guide to App Architecture:
 
+- **`build-logic/convention/`** — Included Gradle composite build housing shared convention plugins (`androidapp.android.application`, `androidapp.android.application.compose`, `androidapp.android.hilt`, `androidapp.android.room`) and centralized app metadata (`ProjectSetting.kt`, `ProjectAds.kt`) backed by `gradle/libs.versions.toml`.
 - **`core/`** — Shared utilities (`Resource`, JSON helpers, BuildConfig accessors), Hilt DI modules (`core/di/`), and Material 3 theme & reusable Compose components (`core/ui/`).
 - **`data/`** — Retrofit API service & DTOs (`data/remote/`), Room `AppDatabase` / DAO / entities (`data/local/`), bidirectional mappers (`data/mapper/`), and `MealRepositoryImpl` (`data/repository/`).
 - **`domain/`** — 100% pure Kotlin immutable domain models (`domain/model/`), repository contracts (`domain/repository/`), and use cases (`domain/usecase/`) with zero Android or network framework imports.
@@ -31,7 +32,7 @@ See [ARCHITECTURE.md](ARCHITECTURE.md) for the full package map, import boundary
 | Category | Technology & Version |
 |---|---|
 | **SDK & JVM** | `minSdk 24` · `compileSdk 37` · `targetSdk 37` · JVM `17` |
-| **Build & Compiler** | AGP `9.5.1` · Kotlin `2.4.21` · KSP `2.3.14` · Gradle `9.9.1` |
+| **Build & Compiler** | AGP `9.5.1` · Kotlin `2.4.21` · KSP `2.3.14` · Gradle `9.9.1` · Convention Plugins (`build-logic/convention`) |
 | **UI & Design** | Jetpack Compose (BOM `2026.09.00`) · Material 3 · Edge-to-Edge |
 | **Dependency Injection** | Hilt `2.60.1` |
 | **Persistence** | Room `2.8.5` (with KSP schema export) |
@@ -45,8 +46,8 @@ See [ARCHITECTURE.md](ARCHITECTURE.md) for the full package map, import boundary
 
 ## Getting Started (Template Customization)
 
-1. Update application metadata (`NAME_APP`, `APP_DOMAIN`, `APP_PLAY_CONSOLE`, version code/name, database & preference names) in `buildSrc/src/main/kotlin/ProjectSetting.kt`.
-2. Update AdMob debug and release unit IDs in `buildSrc/src/main/kotlin/ProjectAds.kt`.
+1. Update application metadata (`NAME_APP`, `APP_DOMAIN`, `APP_PLAY_CONSOLE`, version code/name, database & preference names) in `build-logic/convention/src/main/kotlin/io/github/amirisback/androidapp/convention/ProjectSetting.kt`.
+2. Update AdMob debug and release unit IDs in `build-logic/convention/src/main/kotlin/io/github/amirisback/androidapp/convention/ProjectAds.kt`.
 3. Update `namespace` in `app/build.gradle.kts` and package directories if renaming the root package.
 4. Review [ARCHITECTURE.md](ARCHITECTURE.md) and [AGENTS.md](AGENTS.md) before scaffolding new features.
 

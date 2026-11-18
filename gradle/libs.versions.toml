@@ -48,6 +48,11 @@ frogo-android = { group = "com.github.frogobox", name = "frogo-sdk", version.ref
 coil-compose = { group = "io.coil-kt.coil3", name = "coil-compose", version.ref = "coil" }
 coil-network-okhttp = { group = "io.coil-kt.coil3", name = "coil-network-okhttp", version.ref = "coil" }
 
+# Build Logic Dependencies
+android-gradleApiPlugin = { group = "com.android.tools.build", name = "gradle-api", version.ref = "agp" }
+kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
+ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
+
 # --------------------------------------------------------------------------------------------------
 
 [plugins]
@@ -58,3 +63,9 @@ kotlinParcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = 
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+
+# Convention Plugins (build-logic)
+androidapp-android-application = { id = "androidapp.android.application" }
+androidapp-android-application-compose = { id = "androidapp.android.application.compose" }
+androidapp-android-hilt = { id = "androidapp.android.hilt" }
+androidapp-android-room = { id = "androidapp.android.room" }
